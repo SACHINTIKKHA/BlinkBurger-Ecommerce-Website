@@ -1,0 +1,18 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Membership extends Model
+{
+    public $timestamps=false;
+    protected $table="membership";
+    protected $fillable=([
+        'title',
+        'description',
+        'percentage',
+        'amount',
+        'validity'
+    ]);
+}

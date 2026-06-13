@@ -1,0 +1,57 @@
+<nav class="navbar navbar-expand-lg" id="nav">
+   <div class="container">
+      <a class="navbar-brand" href="#">
+         <div class="blogo">
+            <div class="bico"><i class="fas fa-utensils"></i></div>
+            <div>
+               <div class="bname">Blink<span>burger</span></div>
+               <div class="bsub">Buy , Track and Review</div>
+            </div>
+         </div>
+      </a>
+
+      <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navmenu">
+         <i class="fas fa-bars" style="color:var(--primary);font-size:1.35rem;"></i>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navmenu">
+         <ul class="navbar-nav mx-auto">
+            <li class="nav-item"><a class="nav-link active" href="#hero">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+            <li class="nav-item"><a class="nav-link" href="#menu">Menu</a></li>
+            <li class="nav-item"><a class="nav-link" href="#chefs">Chefs</a></li>
+            <li class="nav-item"><a class="nav-link" href="#reservation">Book Your table</a></li>
+            <li class="nav-item"><a class="nav-link" href="#testimonials">Reviews</a></li>
+            <li class="nav-item"><a class="nav-link" href="#contact-section">Contact</a></li>
+         </ul>
+
+         <div class="d-flex align-items-center gap-2">
+
+            <!-- Search Button -->
+            <button id="navSearchBtn" title="Search">
+               <i class="fas fa-search"></i>
+            </button>
+
+            
+               <!-- Cart Button -->
+               <a href="cart" class="btn btn-warning">
+                  <i class="fas fa-shopping-cart"></i> Cart
+               </a>
+
+               <!-- Dashboard Button -->
+               <a href="customerdashboard" class="btn btn-primary">
+                  Dashboard
+               </a>
+
+               <!-- Logout Button -->
+               <a href="logout" class="btn btn-danger">
+                  Logout
+               </a>
+            
+              
+            
+
+         </div>
+      </div>
+   </div>
+</nav>
