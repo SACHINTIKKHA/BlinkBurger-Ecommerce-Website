@@ -36,4 +36,5 @@ Route::get('roll',[EcommerceController::class,'allroll']);
 Route::get('addtocart/{id}',[EcommerceController::class,'addcart']);
 Route::get('deletecart/{id}',[EcommerceController::class,'delitem']);
 Route::post('coupan',[EcommerceController::class,'addcoupan']);
+Route::post('checkout',[EcommerceController::class,'checkoutitem']);
 

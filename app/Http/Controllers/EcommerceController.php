@@ -147,9 +147,22 @@ class EcommerceController extends Controller
         $enddate=Carbon::parse($check->enddate);
       
         if($req->coupan == $check->offercode && $date->lte($enddate) ){
-            return back()->withInput()->with('success','Coupan Applied');
+            $discount=$check->discount;
+            return view('finalamount',compact('discount'))->withInput()->with('success','Coupan Applied');
         }else{
             return back()->withInput()->with('error','invalid code');
         }
+    }public function checkoutitem(Request $req){
+        $ant=$req->amount;
+        $qty=$req->quantity;
+        $final=0;
+        for($i=0;$i<count($ant);$i++){
+                $total=$ant[$i]*$qty[$i];
+                $final +=$total;
+        }   $net=$final ;
+            $cgst=($final*2.5)/100;
+            $sgst=($final*2.5)/100;
+            $netamount=$net+$cgst+$sgst;
+        return view('finalamount',compact('net','cgst','sgst','netamount'));
     }
 }

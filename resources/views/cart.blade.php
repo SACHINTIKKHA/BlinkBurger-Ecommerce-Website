@@ -170,8 +170,9 @@
          <p class="text-muted">Delicious burgers waiting for checkout 🍔</p>
       </div>
 
+      <form action="checkout" method="post">
+         @csrf
       <div class="row g-4">
-
          <!-- LEFT SIDE -->
          <div class="col-lg-8">
             @foreach($allitem as $all)
@@ -188,14 +189,20 @@
                      <p class="text-muted mb-2">{{$all->description}}</p>
 
                      <div class="d-flex align-items-center gap-2">
-                        <button class="qty-btn" id="minus{{$all->id}}">-</button>
-                        <input type="text" id="qty{{$all->id}}" value="1"class="qty-input" name="quantity">
-                        <button class="qty-btn" id="plus{{$all->id}}">+</button>
+                        Qty : 
+                        <!-- <button type="button" class="qty-btn" id="minus{{$all->id}}">-</button> -->
+                        <input type="text" id="qty{{$all->id}}" value="1"class="qty-input" name="quantity[]">
+                        <!-- <button type="button" class="qty-btn" id="plus{{$all->id}}">+</button> -->
+                        <input type="hidden"
+       name="product_id[]"
+       value="{{$all->id}}">
                      </div>
                   </div>
 
                   <div class="col-md-2 text-center">
-                     <h5 class="fw-bold text-danger">{{$all->amount}} /-</h5>
+                     <h5 class="fw-bold text-danger">{{$all->amount}} /-</h5><input type="hidden"
+       name="amount[]"
+       value="{{$all->amount}}">
                   </div>
 
                   <div class="col-md-2 text-end">
@@ -209,6 +216,7 @@
             </div>
         @endforeach
          </div>
+        
 
          <!-- RIGHT SIDE -->
          <div class="col-lg-4">
@@ -232,7 +240,7 @@
                   <strong class="text-success">₹10</strong>
                </div>
                <!-- COUPON SECTION -->
-                <form action="coupan" method="post">
+                <!-- <form action="coupan" method="post">
                   @csrf
 <div class="coupon-box mb-4">
    <label class="form-label fw-semibold">Apply Coupon</label>
@@ -257,7 +265,7 @@
 <div class="alert alert-danger">
    {{session('error')}}
 </div>
-@endif
+@endif -->
 
                <hr>
 
@@ -266,7 +274,7 @@
                <button class="checkout-btn">
                   Proceed To Checkout
                </button>
-
+</form>
             </div>
 
          </div>
