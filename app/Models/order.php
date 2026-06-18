@@ -6,5 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class order extends Model
 {
-    //
+    public $timestamps=false;
+    protected $table='order';
+    protected $fillable=[
+        'customerid',
+        'cgst',
+        'sgst',
+        'net',
+        'afterdiscount',
+        'code'
+    ];
 }

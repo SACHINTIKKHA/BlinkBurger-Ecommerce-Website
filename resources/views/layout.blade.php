@@ -21,5 +21,7 @@
       <script src="js/jquery.magnific-popup.min.js"></script>
       <!-- Main js -->
       <script src="js/main.js"></script>
+@yield('script')
+
 </body>
 </html>

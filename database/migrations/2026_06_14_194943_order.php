@@ -12,11 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('order',function(Blueprint $table){
-            $table->id;
-            $table->customerid;
-            $table->cgst;
-            $table->sgst;
-            $table->net;
+            $table->id();
+            $table->string('customerid');
+            $table->string('cgst');
+            $table->string('sgst');
+            $table->string('net');
+            $table->string('afterdiscount');
+            $table->string('code');
         });
     }
 

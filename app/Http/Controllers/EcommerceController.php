@@ -5,6 +5,7 @@ use App\Models\Tablebook;
 use App\Models\Item;
 use App\Models\Cart;
 use App\Models\Offer;
+use App\Models\order;
 use App\Models\Membership;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
@@ -141,17 +142,6 @@ class EcommerceController extends Controller
     }public function delitem($id){
         $del=Cart::where('customerid',session('id'))->where('id',$id)->delete();
         return back();
-    }public function addcoupan(Request $req){
-        $check=offer::get()->first();
-        $date=Carbon::today();
-        $enddate=Carbon::parse($check->enddate);
-      
-        if($req->coupan == $check->offercode && $date->lte($enddate) ){
-            $discount=$check->discount;
-            return view('finalamount',compact('discount'))->withInput()->with('success','Coupan Applied');
-        }else{
-            return back()->withInput()->with('error','invalid code');
-        }
     }public function checkoutitem(Request $req){
         $ant=$req->amount;
         $qty=$req->quantity;
@@ -163,6 +153,55 @@ class EcommerceController extends Controller
             $cgst=($final*2.5)/100;
             $sgst=($final*2.5)/100;
             $netamount=$net+$cgst+$sgst;
+            $insert=Order::create([
+                'customerid'=>session('id'),
+                'sgst'=>$sgst,
+                'cgst'=>$cgst,
+                'net'=>$netamount,
+                'afterdiscount'=>0,
+                'code'=>"unseletected"
+
+            ]);
         return view('finalamount',compact('net','cgst','sgst','netamount'));
+    }public function less(Request $req){
+        
+        $product=Offer::where('offercode',$req->code)->first();
+        if(!$product){
+             $fetch=order::where('customerid',session('id'))->orderBy('id','desc')->first();
+             $final=$fetch->net;
+            return response()->json([
+                'amount'=>0,
+                'message'=>"Invalid Code",
+                'finalprice'=>$final
+                
+            ]);
+        }else{
+            $product=Offer::where('offercode',$req->code)->first(); 
+            $fetch=order::where('customerid',session('id'))->orderBy('id','desc')->first();
+            $amount=$fetch->net;
+        $today=Carbon::today();
+        $convertdate=Carbon::parse($product->enddate);
+        if($req->code == $product->offercode && $today->lte($convertdate)){
+            $discountprice=($amount-$product->discount);
+            order::where('customerid',session('id'))->orderBy('id','desc')->first()->update([
+                'code'=>$req->code,
+                'afterdiscount'=>$discountprice
+            ]);
+            return response()->json([
+                'amount'=>$product->discount,
+                'message'=>"Coupon Applied",
+                'finalprice'=>$discountprice
+            ]);
+
+        }else{
+             $discountprice=$amount-0;
+            return response()->json([
+                'amount'=>0,
+                'message'=>"Coupan Expired",
+                'finalprice'=>$discountprice
+
+            ]);
+        }
+    }
     }
 }

@@ -1,19 +1,53 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Receipt UI</title>
+@extends('layout')
+@section('main')
 
-    <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
 
-<body class="bg-light">
 
-<div class="container mt-5">
+<div class="container-fluid">
+    <div class="row">
 
-    <div class="card p-4 mx-auto" style="max-width:400px;">
+<div class="col-lg-6 d-flex justify-content-center align-items-center flex-column">
+
+    <a class="navbar-brand text-decoration-none" href="#">
+
+        <div class="blogo d-flex align-items-center gap-3 mb-4 mt-4">
+
+            <div class="bico">
+                <i class="fas fa-utensils"></i>
+            </div>
+
+            <div>
+                <div class="bname">
+                    Blink<span>burger</span>
+                </div>
+
+                <div class="bsub">
+                    Buy, Track and Review
+                </div>
+            </div>
+
+        </div>
+
+    </a>
+
+    <h1 class="htitle text-center">
+        Grab,
+        <span class="hl">Discount</span>
+        <br>
+        and Eat
+    </h1>
+
+    <p class="hdesc text-center">
+       Use coupan to grap big discount Upto 90% , So dont be too late offer valid till the last date of the coupan . Hurry Up! 
+    </p>
+
+</div>
+
+        <!-- Right Section -->
+        <div class="col-lg-6 right-side" >
+<div class="container mt-2" >
+
+    <div class="card p-4 mx-auto mt-3 mb-5" style="max-width:500px;">
 
         <h3 class="text-center mb-4">Receipt</h3>
 
@@ -33,49 +67,76 @@
         </div>
         <hr>
          <div class="d-flex justify-content-between mt-1 fw-bold">
-        <span>Net Amount</span>
+        <span> Amount</span>
         <span>₹{{$netamount}}</span>
         </div>
 
 
         <div class="mt-3">
-            <form action="coupan" method="action">
+            <form id="coupancode">
                 @csrf
             <input type="text"
                    class="form-control"
-                   placeholder="Enter Coupon Code">
+                   placeholder="Enter Coupon Code" name="code">
 
-            <button class="btn btn-primary w-100 mt-2">
+            <button class="btn btn-primary w-100 mt-2" id="load" type="submit">
                 Apply Coupon
             </button>
-            @if(session('error'))
-            <div class="alert alert-dannger">
-
-            {{session('error')}}
-</div>
-@endif
+           
+           <div id="message" class="mt-2"></div>
 </form>
         </div>
 
-        <div class="d-flex justify-content-between mt-3">
-            <span>Discount</span>
-            <span>₹0</span>
-        </div>
+        <div class="d-flex justify-content-between align-items-center mt-2">
+    <span>Discount</span>
+    <span id="coupan"style="font-family:Arial;">  - ₹0</span>
+</div>
 
         <hr>
 
         <div class="d-flex justify-content-between fw-bold">
-            <span>Final Amount</span>
-            <span>₹{{$netamount}}</span>
+            <span>Net Amount</span>
+            <h3 id="finalamount"style="font-family:Arial;">₹{{$netamount}}</h3>
         </div>
 
-        <button class="btn btn-success w-100 mt-4">
-            Proceed To Pay
-        </button>
+        <a href="proceedtopay" class="btn btn-success mt-4">
+            Proceed To Pay1
+</a>
 
     </div>
-
 </div>
+</div>
+</div>
+@endsection
+@section('script')
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script>
 
-</body>
-</html>
+  $("#coupancode").submit(function(e){
+    e.preventDefault();
+    
+
+    let formdata=$(this).serialize();
+    $.ajax({
+        url:"discountamount",
+        type:"POST",
+        data:formdata,
+        success:function(data){
+           
+            if(data){
+                $("#coupan").html(`
+                <h4 style="font-family:Arial;margin-bottom:0;font-size: 18px;"> - ₹ ${data.amount}</h4>`);
+                $("#message").html(`
+                <h5>${data.message}</h5>`);
+                $("#finalamount").html(`
+                <h4 style="font-family:Arial;margin-bottom:0;font-size: 18px;font-weight: bold;"> ₹ ${data.finalprice}</h4>`);
+                
+            }else{
+                $("#coupan").html("Code Invalid");
+            }
+        }
+    });
+  });
+
+    </script>
+@endsection
