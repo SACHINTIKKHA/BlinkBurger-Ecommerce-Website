@@ -65,6 +65,10 @@
             <span>SGST 2.5%</span>
             <span>₹{{$sgst}}</span>
         </div>
+        <div class="d-flex justify-content-between mt-2">
+            <span>Packaging Charge</span>
+            <span>₹10</span>
+        </div>
         <hr>
          <div class="d-flex justify-content-between mt-1 fw-bold">
         <span> Amount</span>
@@ -89,14 +93,14 @@
 
         <div class="d-flex justify-content-between align-items-center mt-2">
     <span>Discount</span>
-    <span id="coupan"style="font-family:Arial;">  - ₹0</span>
+    <span id="coupan"style="font-family:Arial;margin-bottom:0;font-size: 18px;font-weight: bold;">  - ₹0</span>
 </div>
 
         <hr>
 
         <div class="d-flex justify-content-between fw-bold">
             <span>Net Amount</span>
-            <h3 id="finalamount"style="font-family:Arial;">₹{{$netamount}}</h3>
+            <h3 id="finalamount"style="font-family:Arial;margin-bottom:0;font-size: 18px;font-weight: bold;">₹{{$netamount}}</h3>
         </div>
 
         <a href="proceedtopay" class="btn btn-success mt-4">

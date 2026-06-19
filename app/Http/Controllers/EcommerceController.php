@@ -147,12 +147,16 @@ class EcommerceController extends Controller
         $qty=$req->quantity;
         $final=0;
         for($i=0;$i<count($ant);$i++){
-                $total=$ant[$i]*$qty[$i];
-                $final +=$total;
+            $total=$ant[$i]*$qty[$i];
+            $final +=$total;
         }   $net=$final ;
             $cgst=($final*2.5)/100;
             $sgst=($final*2.5)/100;
-            $netamount=$net+$cgst+$sgst;
+            $netamount=$net+$cgst+$sgst+10;
+            $cartupdate=Cart::where('customerid',session('id'))->update([
+                'qty'=>implode(',',$qty),
+                'total'=>$netamount
+            ]);
             $insert=Order::create([
                 'customerid'=>session('id'),
                 'sgst'=>$sgst,
@@ -163,12 +167,10 @@ class EcommerceController extends Controller
 
             ]);
         return view('finalamount',compact('net','cgst','sgst','netamount'));
-    }public function less(Request $req){
-        
-        $product=Offer::where('offercode',$req->code)->first();
+    }       public function less(Request $req){ $product=Offer::where('offercode',$req->code)->first();
         if(!$product){
-             $fetch=order::where('customerid',session('id'))->orderBy('id','desc')->first();
-             $final=$fetch->net;
+            $fetch=order::where('customerid',session('id'))->orderBy('id','desc')->first();
+            $final=$fetch->net;
             return response()->json([
                 'amount'=>0,
                 'message'=>"Invalid Code",
@@ -179,22 +181,22 @@ class EcommerceController extends Controller
             $product=Offer::where('offercode',$req->code)->first(); 
             $fetch=order::where('customerid',session('id'))->orderBy('id','desc')->first();
             $amount=$fetch->net;
-        $today=Carbon::today();
-        $convertdate=Carbon::parse($product->enddate);
-        if($req->code == $product->offercode && $today->lte($convertdate)){
+            $today=Carbon::today();
+            $convertdate=Carbon::parse($product->enddate);
+            if($req->code == $product->offercode && $today->lte($convertdate)){
             $discountprice=($amount-$product->discount);
             order::where('customerid',session('id'))->orderBy('id','desc')->first()->update([
                 'code'=>$req->code,
                 'afterdiscount'=>$discountprice
             ]);
-            return response()->json([
+                return response()->json([
                 'amount'=>$product->discount,
                 'message'=>"Coupon Applied",
                 'finalprice'=>$discountprice
             ]);
 
         }else{
-             $discountprice=$amount-0;
+            $discountprice=$amount-0;
             return response()->json([
                 'amount'=>0,
                 'message'=>"Coupan Expired",
@@ -203,5 +205,9 @@ class EcommerceController extends Controller
             ]);
         }
     }
+    } public function fetch(){
+        $fetchdata=Cart::where('customerid',session('id'))->get();
+        
+        return view('pay',compact('fetchdata'));
     }
 }

@@ -37,5 +37,6 @@ Route::get('addtocart/{id}',[EcommerceController::class,'addcart']);
 Route::get('deletecart/{id}',[EcommerceController::class,'delitem']);
 Route::post('checkout',[EcommerceController::class,'checkoutitem']);
 Route::post('discountamount',[EcommerceController::class,'less']);
-Route::view('proceedtopay','pay');
+Route::get('proceedtopay',[EcommerceController::class,'fetch']);
+
 

@@ -206,10 +206,9 @@
                   </div>
 
                   <div class="col-md-2 text-end">
-                     <a href="{{'deletecart/'.$all->id}}">
-                     <button class="remove-btn">
-                        <i class="fas fa-trash"></i>
-                     </button></a>
+                     <a href="{{'deletecart/'.$all->id}}" class="remove-btn">
+                     <i class="fas fa-trash"></i>
+                    </a>
                   </div>
 
                </div>
@@ -239,39 +238,13 @@
                   <span>Packaging Charge</span>
                   <strong class="text-success">₹10</strong>
                </div>
-               <!-- COUPON SECTION -->
-                <!-- <form action="coupan" method="post">
-                  @csrf
-<div class="coupon-box mb-4">
-   <label class="form-label fw-semibold">Apply Coupon</label>
-
-   <div class="d-flex gap-2">
-      <input type="text"
-             class="form-control coupon-input"
-             placeholder="Enter coupon code" name="coupan" value="{{old('coupan')}}">
-
-      <button class="apply-btn rounded-1 w-50" type="submit">
-         Apply
-      </button>
-   </div>
-</div>
-</form>
-@if(session('success'))
-<div class="alert alert-success">
-   {{session('success')}}
-</div>
-@endif
-@if(session('error'))
-<div class="alert alert-danger">
-   {{session('error')}}
-</div>
-@endif -->
+              
 
                <hr>
 
               
 
-               <button class="checkout-btn">
+               <button type="submit" class="checkout-btn">
                   Proceed To Checkout
                </button>
 </form>
@@ -284,27 +257,6 @@
    </div>
 </section>
 
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-<script>
-    @foreach($allitem as $all)
-    var additem=document.getElementById("plus{{$all->id}}");
-    additem.addEventListener("click",function(){
-       var qty=document.getElementById("qty{{$all->id}}");
-       var value=parseInt(qty.value);
-       qty.value=value+1;
-    });
-
-    var decrease=document.getElementById("minus{{$all->id}}");
-    decrease.addEventListener("click",function(){
-        var qty=document.getElementById("qty{{$all->id}}");
-        var value=parseInt(qty.value);
-        if(value>1){
-            qty.value=value-1;
-        }
-    })
-@endforeach
-</script>
 </body>
 </html>
